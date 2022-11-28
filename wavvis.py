@@ -11,16 +11,12 @@ filename = "cantinaband.wav"
 
 data, fs = sf.read(filename, dtype='float32')
 
-sd.play(data, fs)
-status = sd.wait()
-
 pg.init()
 
 HEIGHT = 600
 WIDTH = 1250
 
 
-display = pg.display.setmode(WIDTH, HEIGHT)
 
 rate, data = wav.read(filename)
 
@@ -30,8 +26,11 @@ print ("There are " + str(len(data)) + " samples.")
 
 print ("Then the audio length is: " + str(len(data) / rate) + " seconds.")
 
-print (data)
+print (data[:, 0])
 
-plt.plot(data)
+plt.plot(data[:, 0])
 
 plt.show()
+
+sd.play(data, fs)
+status = sd.wait()
