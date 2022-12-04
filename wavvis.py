@@ -17,12 +17,22 @@ filename = "cantinaband.wav"
 
 # Pygame init
 pg.init()
+pg.mixer.init()
 
 # Global Variables
 
+FPS = 30
 HEIGHT = 600
 WIDTH = 1250
-c = 299792458
+C = 299792458
+
+# Display
+display_surface = pg.display.set_mode((WIDTH, HEIGHT))
+pg.display.set_caption("Python .wav Visualizer")
+
+color = (51, 79, 124)
+
+fpsClock = pg.time.Clock()
 
 # Conversion name
 newfilename = "Cantinabund.wav"
@@ -34,7 +44,7 @@ sound.export(newfilename, format="wav")
 
 
 # Reads values into data list
-data, rate = sf.read("Cantinabund.wav")
+data, rate = sf.read(newfilename)
 
 
 # Prints info
@@ -43,28 +53,37 @@ print ("The sample rate is " + str(rate) + " samples per second")
 print ("There are " + str(len(data)) + " samples.")
 
 print ("Then the audio length is: " + str(len(data) / rate) + " seconds.")
+ 
+fixeddata = [abs(i * 1000) for i in data]
 
+# Prints data and graph
+# # print(fixeddata)
 
-# # # Prints data and graph
-# # print(data)
-
-# # plt.plot(data)
+# # plt.plot(fixeddata)
 
 # # plt.show()
 
-# for i in data:
+# # print(fixeddata.max())
+# # print(fixeddata.min())
 
-#     if ( == 0):
-#          += 0.0000000000000001
-#     wavelength = ( c / (data[:, 0])[i] )
-
-# for i in data:
-#     print(data[i])
-
-
-print(data.max())
-print(data.min())
 # Plays audio
-wav_obj = sa.WaveObject.from_wave_file("Cantinabund.wav")
-play_obj = wav_obj.play()
-play_obj.wait_done()
+pg.mixer.music.load(newfilename)
+pg.mixer.music.set_volume(100.0)
+pg.mixer.music.play()
+
+loop = True
+
+# game loop
+while loop == True:
+    for event in pg.event.get():
+        if event.type == pg.QUIT:
+            loop = False
+    
+    color = (fixeddata[])
+    display_surface.fill(color)
+    pg.display.update()
+    fpsClock.tick(FPS)
+
+pg.quit()
+
+
