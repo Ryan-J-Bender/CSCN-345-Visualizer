@@ -73,6 +73,9 @@ pg.mixer.music.play()
 
 loop = True
 
+# iterator
+i = 0
+
 # game loop
 while loop == True:
     for event in pg.event.get():
@@ -83,6 +86,8 @@ while loop == True:
     display_surface.fill(color)
     pg.display.update()
     fpsClock.tick(FPS)
+
+    i += 1
 
 pg.quit()
 
