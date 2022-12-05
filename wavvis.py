@@ -29,8 +29,8 @@ WIDTH = 1250
 C = 299792458
 
 # Display
-display_surface = pg.display.set_mode((WIDTH, HEIGHT))
-pg.display.set_caption("Python .wav Visualizer")
+# display_surface = pg.display.set_mode((WIDTH, HEIGHT))
+# pg.display.set_caption("Python .wav Visualizer")
 
 color = (51, 79, 124)
 
@@ -49,19 +49,24 @@ sound.export(newfilename, format="wav")
 data, rate = sf.read(newfilename)
 
 
-data = [abs(i * 1000) for i in data]
+
 data = numpy.array(data)
 data = data.astype(int)
 
 for i in data:
     
+    data[i] * 1000
+
     if data[i] == 0:
         data[i] = 1
 
-for i in data:
     if i % 9 != 0:
         data = numpy.delete(data, i)
 
+for i in data:
+    
+    if data[i] == 0:
+        data[i] = 1
 
 # Prints info
 print ("The sample rate is " + str(rate) + " samples per second")
@@ -125,5 +130,5 @@ print(data)
 
 # #     i += 1
 
-pg.quit()
+# pg.quit()
 
