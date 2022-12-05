@@ -2,13 +2,15 @@
 
 
 
-import matplotlib.pyplot as plt  
+# import matplotlib.pyplot as plt  
 from scipy.io import wavfile as wav
 import soundfile as sf
 import numpy
 import pygame as pg
 import simpleaudio as sa
 from pydub import AudioSegment
+
+import WaveToRGB
 
 
 
@@ -47,14 +49,33 @@ sound.export(newfilename, format="wav")
 data, rate = sf.read(newfilename)
 
 
+data = [abs(i * 1000) for i in data]
+data = numpy.array(data)
+data = data.astype(int)
+
+for i in data:
+    
+    if data[i] == 0:
+        data[i] = 1
+
+for i in data:
+    if i % 9 != 0:
+        data = numpy.delete(data, i)
+
+
 # Prints info
 print ("The sample rate is " + str(rate) + " samples per second")
 
 print ("There are " + str(len(data)) + " samples.")
 
 print ("Then the audio length is: " + str(len(data) / rate) + " seconds.")
- 
-fixeddata = [abs(i * 1000) for i in data]
+
+
+# for j in data:
+#     data[j] = int(data[j])
+
+
+
 
 # Prints data and graph
 # # print(fixeddata)
@@ -73,22 +94,36 @@ pg.mixer.music.play()
 
 loop = True
 
+display_surface.fill(color)
+pg.display.update()
+
 # iterator
 i = 0
 
-# game loop
-while loop == True:
-    for event in pg.event.get():
-        if event.type == pg.QUIT:
-            loop = False
-    
-    color = (fixeddata[])
-    display_surface.fill(color)
-    pg.display.update()
-    fpsClock.tick(FPS)
+print(data)
 
-    i += 1
+# # # game loop
+# # while loop == True:
+# #     for event in pg.event.get():
+# #         if event.type == pg.QUIT:
+# #             loop = False
+    
+# #     red = (WaveToRGB.wav_to_rgb(data[i], 0))
+# #     green = (WaveToRGB.wav_to_rgb(data[i], 1))
+# #     blue = (WaveToRGB.wav_to_rgb(data[i], 2))
+
+# #     print(red)
+# #     print(green)
+# #     print(blue)
+
+
+# #     color = (red, green, blue)
+# #     display_surface.fill(color)
+# #     pg.display.update()
+
+# #     fpsClock.tick(FPS)
+
+# #     i += 1
 
 pg.quit()
-
 
